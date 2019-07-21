@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require_relative "src/csv_normalizer"
+require_relative "src/duration_normalizer"
+require_relative "src/full_name_normalizer"
+require_relative "src/row_normalizer"
+require_relative "src/timestamp_normalizer"
+require_relative "src/zip_normalizer"
+
+if ARGF.pos.zero?
+  normalizer = CsvNormalizer.new(ARGF.read)
+  result = normalizer.normalize
+  if result
+    STDOUT.write(normalizer.output)
+    STDERR.write(normalizer.errors)
+  else
+    STDERR.write("This is not a valid CSV file\n")
+  end
+else
+  STDERR.write("Please enter a file via STDIN\n")
+end
